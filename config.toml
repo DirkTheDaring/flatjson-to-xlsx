@@ -1,0 +1,22 @@
+out   = "/home/dietmar/test.xlsx"
+sheet = "Jira"
+ndjson = false
+pk = ["key"]
+
+# include only these columns (PKs are always included)
+#include = ["id", "key", "fields.summary", "fields.status.name","fields.issuetype.name","fields.reporter.displayName","fields.assignee.displayName"]
+include = ["id", "key","fields.parent.key","fields.components.0.name","fields.issuetype.name","fields.status.name","fields.reporter.displayName","fields.assignee.displayName","fields.summary"]
+
+#include_regex = ["fields\\.comment\\.comments\\.\\d+\\.body$"]  # <-- add this
+
+# order: PK first automatically, then exact names, then regex groups, then substr groups, finally the rest
+order = ["id", "key","fields.parent.key","fields.components.0.name","fields.issuetype.name","fields.status.name","fields.reporter.displayName","fields.assignee.displayName","fields.summary"]
+
+# place all comment bodies after that (any index), in natural order
+#order_regex = ["fields\\.comment\\.comments\\.\\d+\\.body$"]
+# put remaining included columns in existing header order then new keys natural-sorted
+order_rest = "existing"   # or "alpha" or "none"
+
+[hyperlink]
+key = "https://jira.example.com/browse/" # makes column 'key' clickable
+"fields.parent.key" = "https://jira.example.com/browse/"
